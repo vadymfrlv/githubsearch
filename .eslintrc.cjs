@@ -7,8 +7,22 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  plugins: ['react-refresh'],
+  plugins: ['import', 'react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    'import/no-unresolved': 'error',
+    'import/named': 'error',
+    'import/default': 'error',
+    'import/namespace': 'error',
+    'import/no-absolute-path': 'error',
+    'import/no-duplicates': 'error',
+    'import/extensions': ['error', 'ignorePackages'],
   },
-}
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx'],
+      },
+    },
+  },
+};

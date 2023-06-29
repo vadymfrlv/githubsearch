@@ -31,7 +31,7 @@ export const HomePage = () => {
   };
 
   return (
-    <div className="relative flex justify-center pt-10 mx-auto h-screen w-screen ">
+    <div className="relative flex justify-center pt-10 mx-auto h-screen w-screen">
       {isError && (
         <p className="absolute top-[110px] text-center uppercase text-red-500">
           Something went wrong

@@ -62,9 +62,12 @@ export const HomePage = () => {
           </ul>
         )}
         <div className="container text-center">
-          {isReposLoading && <p className="mt-2 text-grey-100">Repos are loading...</p>}
+          {isReposLoading && <p className="mt-2 text-gray-400">Repos are loading...</p>}
           {!isReposLoading && isReposFetching && (
-            <p className="mt-2 text-grey-100">Repos are fetching...</p>
+            <p className="mt-2 text-gray-400">Repos are fetching...</p>
+          )}
+          {userRepos?.length! === 0 && (
+            <p className="mt-2 text-gray-400">This user does not have repositories</p>
           )}
 
           {userRepos?.map(repo => (

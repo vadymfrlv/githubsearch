@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import { useSearchUsersQuery, useLazyGetUserReposQuery } from '../store/github/github.api';
 import { useDebounce } from '../hooks/debounce';
+import { RepoCard } from '../components/RepoCard';
 
 export const HomePage = () => {
   const [search, setSearch] = useState('');
@@ -15,7 +17,8 @@ export const HomePage = () => {
     skip: debounced.length < 3,
   });
 
-  const [fetchRepos, { isLoading: isReposLoading, data: userRepos }] = useLazyGetUserReposQuery();
+  const [fetchRepos, { isLoading: isReposLoading, isFetching: isReposFetching, data: userRepos }] =
+    useLazyGetUserReposQuery();
 
   useEffect(() => {
     setDropdown(debounced.length >= 3 && users?.length! > 0);
@@ -24,6 +27,7 @@ export const HomePage = () => {
   const clickHandler = (username: string) => {
     fetchRepos(username);
     setSearch('');
+    setDropdown(false);
   };
 
   return (
@@ -34,7 +38,7 @@ export const HomePage = () => {
         </p>
       )}
 
-      <div className="relative flex flex-col w-[560px]">
+      <div className="relative flex flex-col w-[560px] align-middle">
         <input
           type="text"
           placeholder="GitHub username..."
@@ -58,10 +62,13 @@ export const HomePage = () => {
           </ul>
         )}
         <div className="container text-center">
-          {isReposLoading && <p className="text-center">Repos are loading...</p>}
+          {isReposLoading && <p className="mt-2 text-grey-100">Repos are loading...</p>}
+          {!isReposLoading && isReposFetching && (
+            <p className="mt-2 text-grey-100">Repos are fetching...</p>
+          )}
 
           {userRepos?.map(repo => (
-            <p>{repo.name}</p>
+            <RepoCard repo={repo} key={repo.id} />
           ))}
         </div>
       </div>

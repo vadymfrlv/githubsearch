@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { useSearchUsersQuery, useLazyGetUserReposQuery } from '../store/github/github.api';
 import { useDebounce } from '../hooks/debounce';
 import { RepoCard } from '../components/RepoCard';
+import { ScrollUpBtn } from '../components/ScrollUpBtn';
+import { useScrollUp } from '../hooks/scroll';
 
 export const HomePage = () => {
   const [search, setSearch] = useState('');
-  const [showScrollButton, setShowScrollButton] = useState(false);
   const debounced = useDebounce(search);
+  const { showScrollButton, scrollUp } = useScrollUp();
 
   const { isError, data: users } = useSearchUsersQuery(debounced, {
     skip: debounced.length < 3,
@@ -23,32 +25,6 @@ export const HomePage = () => {
 
   const dropdown = debounced.length >= 3 && users?.length! > 0;
 
-  const scrollUp = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  const handleScroll = () => {
-    const scrolledHeight = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-
-    const isScrolled = scrolledHeight > documentHeight / 3 - windowHeight;
-    const hasContentToScroll = documentHeight > windowHeight;
-
-    setShowScrollButton(isScrolled && hasContentToScroll);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   return (
     <div className="relative mx-auto flex h-screen w-screen justify-center pt-[110px]">
       {isError && (
@@ -56,7 +32,6 @@ export const HomePage = () => {
           Something went wrong
         </p>
       )}
-
       <div className="relative flex w-[560px] flex-col align-middle">
         <input
           type="text"
@@ -93,14 +68,8 @@ export const HomePage = () => {
             <RepoCard repo={repo} key={repo.id} />
           ))}
         </div>
-        {showScrollButton && (
-          <button
-            className="fixed bottom-5 right-5 rounded-md bg-gray-300 p-2 uppercase shadow-md"
-            onClick={scrollUp}
-          >
-            Scroll Up
-          </button>
-        )}
+
+        {showScrollButton && <ScrollUpBtn onClick={scrollUp} />}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export const Navigation = () => {
   return (
-    <nav className="fixed z-10 flex h-[50px] w-full items-center justify-between bg-[#cccccc] px-5 text-[#c3f51d] shadow-md">
+    <nav className="fixed z-10 flex h-[50px] w-full items-center justify-between bg-gray-300 px-5 text-[#c3f51d] shadow-md">
       <h2 className="text-xl font-semibold">GitHub Search</h2>
 
       <span>

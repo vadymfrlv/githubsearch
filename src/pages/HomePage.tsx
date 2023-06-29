@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchUsersQuery } from '../store/github/github.api';
+import { useSearchUsersQuery, useLazyGetUserReposQuery } from '../store/github/github.api';
 import { useDebounce } from '../hooks/debounce';
 
 export const HomePage = () => {
@@ -8,16 +8,23 @@ export const HomePage = () => {
   const debounced = useDebounce(search);
 
   const {
-    isLoading,
+    isLoading: isUsersLoading,
     isError,
     data: users,
   } = useSearchUsersQuery(debounced, {
     skip: debounced.length < 3,
   });
 
+  const [fetchRepos, { isLoading: isReposLoading, data: userRepos }] = useLazyGetUserReposQuery();
+
   useEffect(() => {
     setDropdown(debounced.length >= 3 && users?.length! > 0);
   }, [debounced, users]);
+
+  const clickHandler = (username: string) => {
+    fetchRepos(username);
+    setSearch('');
+  };
 
   return (
     <div className="relative flex justify-center pt-10 mx-auto h-screen w-screen ">
@@ -27,28 +34,36 @@ export const HomePage = () => {
         </p>
       )}
 
-      <div className="relative flex justify-center w-[560px]">
+      <div className="relative flex flex-col w-[560px]">
         <input
           type="text"
           placeholder="GitHub username..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="block w-[300px] h-[30px] rounded-md border-0 py-1.5 pl-3 pr-3 text-[#3c3c3c] ring-2 ring-inset ring-[#c3f51d] sm:text-sm sm:leading-6 shadow-sm"
+          className="block w-[300px] h-[30px] mx-auto rounded-md border-0 py-1.5 pl-3 pr-3 text-[#3c3c3c] ring-2 ring-inset ring-[#c3f51d] sm:text-sm sm:leading-6 shadow-sm"
         />
 
         {dropdown && (
-          <div className="absolute list-none rounded-md top-[31px] left-[1/2] w-[300px] max-h-[200px] overflow-y-scroll shadow-md bg-white">
-            {isLoading && <p className="text-center uppercase">Data loading...</p>}
+          <ul className="absolute list-none rounded-md top-[31px] left-[130px] w-[300px] max-h-[200px] overflow-y-scroll shadow-md bg-white">
+            {isUsersLoading && <p className="text-center uppercase">Users are loading...</p>}
             {users?.map(user => (
               <li
                 key={user.id}
+                onClick={() => clickHandler(user.login)}
                 className="py-2 px-4 hover:bg-gray-300 hover:text-[#3c3c3c] transition-colors cursor-pointer"
               >
                 {user.login}
               </li>
             ))}
-          </div>
+          </ul>
         )}
+        <div className="container text-center">
+          {isReposLoading && <p className="text-center">Repos are loading...</p>}
+
+          {userRepos?.map(repo => (
+            <p>{repo.name}</p>
+          ))}
+        </div>
       </div>
     </div>
   );

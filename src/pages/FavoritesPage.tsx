@@ -29,25 +29,27 @@ export const FavoritesPage = () => {
             <li
               key={fav}
               onClick={() => window.open(fav, '_blank')}
-              className="mb-2  flex h-[60px] w-[500px] cursor-pointer items-center justify-between overflow-hidden rounded-r-md border border-r-0 pl-3 marker:rounded-l-md hover:border-gray-300 hover:bg-gray-300 hover:shadow-md"
+              className="relative mb-2 h-[58px] w-[500px] cursor-pointer rounded-l-md rounded-r-md hover:bg-gray-300 hover:shadow-md"
             >
-              <a
-                className="max-w-[500px] flex-1 text-left text-gray-800"
-                href={fav}
-                target="_blank"
-                onClick={e => e.stopPropagation()}
-              >
-                {fav}
-              </a>
-              <button
-                className="h-[60px] rounded-r-md bg-lime-300 px-3 text-lg uppercase text-gray-700"
-                onClick={e => {
-                  e.stopPropagation();
-                  removeFromFavorite(fav, e);
-                }}
-              >
-                &#10006;
-              </button>
+              <div className="border-l-md flex h-full rounded-l-md rounded-r-md border border-r-0 hover:border-gray-300">
+                <a
+                  className="flex items-center justify-between pl-3 pr-[58px] text-left text-gray-800"
+                  href={fav}
+                  target="_blank"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <span>{fav}</span>
+                </a>
+                <button
+                  className="absolute bottom-0 right-0 top-0 h-[58px] rounded-r-md bg-lime-300 px-3 text-lg uppercase text-gray-700"
+                  onClick={e => {
+                    e.stopPropagation();
+                    removeFromFavorite(fav, e);
+                  }}
+                >
+                  &#10006;
+                </button>
+              </div>
             </li>
           ))}
         </ul>

@@ -26,9 +26,9 @@ export const HomePage = () => {
   const dropdown = debounced.length >= 3 && users?.length! > 0;
 
   return (
-    <div className="relative mx-auto flex h-screen w-screen justify-center pt-[110px]">
+    <div className="relative mx-auto flex  justify-center pt-[110px]">
       {isError && (
-        <p className="absolute top-[150px] text-center font-semibold uppercase text-red-500">
+        <p className="absolute top-[165px] text-center font-semibold uppercase text-red-500">
           Something went wrong
         </p>
       )}
@@ -38,11 +38,11 @@ export const HomePage = () => {
           placeholder="GitHub username..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="mx-auto block h-[30px] w-[300px] rounded-md border-0 py-1.5 pl-3 pr-3 text-[#3c3c3c] shadow-sm ring-2 ring-inset ring-[#c3f51d] sm:text-sm sm:leading-6"
+          className="text-md mx-auto mb-2 block h-[45px] w-[300px] rounded-md border-0 py-1.5 pl-3 pr-3 text-[#3c3c3c] shadow-sm ring-2 ring-inset ring-[#c3f51d] focus:outline-none"
         />
 
         {dropdown && (
-          <ul className="absolute left-[130px] top-[31px] max-h-[200px] w-[300px] list-none overflow-y-scroll rounded-md bg-white shadow-md">
+          <ul className="absolute left-[130px] top-[46px] max-h-[200px] w-[300px] list-none overflow-y-scroll rounded-md bg-white shadow-md">
             {users?.map(user => (
               <li
                 key={user.id}
@@ -56,12 +56,14 @@ export const HomePage = () => {
         )}
 
         <div className="container pb-[50px] text-center">
-          {isReposLoading && <p className="mt-2 text-gray-400">Repos are loading...</p>}
+          {isReposLoading && (
+            <p className="absolute inset-0 -top-[27px] text-gray-400">Repos are loading...</p>
+          )}
           {!isReposLoading && isReposFetching && (
-            <p className="mt-2 text-gray-400">Repos are fetching...</p>
+            <p className="absolute inset-0 -top-[27px] text-gray-400">Repos are fetching...</p>
           )}
           {userRepos?.length! === 0 && (
-            <p className="mt-2 text-gray-400">This user does not have repositories</p>
+            <p className="mb-2 text-gray-400">This user does not have repositories</p>
           )}
 
           {userRepos?.map(repo => (

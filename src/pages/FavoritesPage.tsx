@@ -29,7 +29,7 @@ export const FavoritesPage = () => {
             <li
               key={fav}
               onClick={() => window.open(fav, '_blank')}
-              className="mb-2 flex h-[60px] cursor-pointer items-center justify-between rounded-l-md rounded-r-md border border-r-0 pl-3 hover:border-gray-300 hover:bg-gray-300 hover:shadow-md"
+              className="mb-2  flex h-[60px] w-[500px] cursor-pointer items-center justify-between overflow-hidden rounded-r-md border border-r-0 pl-3 marker:rounded-l-md hover:border-gray-300 hover:bg-gray-300 hover:shadow-md"
             >
               <a
                 className="max-w-[500px] flex-1 text-left text-gray-800"

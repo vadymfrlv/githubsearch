@@ -23,9 +23,8 @@ export const RepoCard = ({ repo }: { repo: Repo }) => {
   };
 
   return (
-    <div className="mb-2 mt-2 flex min-h-[115px] flex-col justify-center overflow-y-scroll rounded border px-3 py-3 text-center transition-all hover:bg-gray-100 hover:shadow-md">
+    <div className="mb-2 flex min-h-[115px] justify-center overflow-y-scroll rounded border px-3 py-3 text-center transition-all hover:border-gray-300 hover:bg-gray-300 hover:shadow-md">
       <a href={repo.html_url} target="_blank">
-        {' '}
         <h2 className="text-lg font-bold">{repo.full_name}</h2>
         <p className="text-sm">
           Forks: <span className="mr-2 font-bold">{repo.forks}</span>

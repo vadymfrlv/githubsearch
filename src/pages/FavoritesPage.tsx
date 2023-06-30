@@ -29,11 +29,11 @@ export const FavoritesPage = () => {
             <li
               key={fav}
               onClick={() => window.open(fav, '_blank')}
-              className="relative mb-2 h-[58px] w-[500px] cursor-pointer rounded-l-md rounded-r-md hover:bg-gray-300 hover:shadow-md"
+              className="relative h-[55px] w-[500px] cursor-pointer rounded-l-md rounded-r-md hover:bg-gray-300 hover:shadow-md"
             >
-              <div className="border-l-md flex h-full rounded-l-md rounded-r-md border border-r-0 hover:border-gray-300">
+              <div className="flex h-full rounded-l-md rounded-r-lg border border-r-0 hover:border-gray-300">
                 <a
-                  className="flex items-center justify-between pl-3 pr-[58px] text-left text-gray-800"
+                  className="flex items-center justify-between pl-3 text-left text-gray-800"
                   href={fav}
                   target="_blank"
                   onClick={e => e.stopPropagation()}
@@ -41,7 +41,7 @@ export const FavoritesPage = () => {
                   <span>{fav}</span>
                 </a>
                 <button
-                  className="absolute bottom-0 right-0 top-0 h-[58px] rounded-r-md bg-lime-300 px-3 text-lg uppercase text-gray-700"
+                  className="absolute bottom-0 right-0 top-0 rounded-r-md bg-lime-300 px-3 text-lg uppercase text-gray-700"
                   onClick={e => {
                     e.stopPropagation();
                     removeFromFavorite(fav, e);
